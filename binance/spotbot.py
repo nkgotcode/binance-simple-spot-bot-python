@@ -84,11 +84,15 @@ while True:
             logging.info("ATR 50: %s", str(atr_50))
 
             if current_price < ema_50:
-                print("invalidating.. not buying BTCUP")
-                logging.info("invalidating.. not buying BTCUP")
+                print("invalidating since current price is below EMA50.. not buying BTCUP")
+                logging.info("invalidating since current price is below EMA50.. not buying BTCUP")
                 break
 
             elif current_price > ema_50 and rsi_10 > 70:
+                if atr_50 / current_price < 0.005:
+                    print("invalidating since the price volatility is below 0.5%.. not buying BTCUP")
+                    logging.info("invalidating since the price volatility is below 0.5%.. not buying BTCUP")
+                    break
                 print("buying BTCUP")
                 logging.info("buying BTCUP")
                 available_usdt_balances = next((x for x in spot_client.coin_info() if x["coin"] == "USDT"))['free']
@@ -181,11 +185,15 @@ while True:
             logging.info("ATR 50: %s", str(atr_50))
 
             if current_price > ema_50:
-                print("invalidating.. not buying BTCDOWN")
-                logging.info("invalidating.. not buying BTCDOWN")
+                print("invalidating since current price is above EMA50.. not buying BTCDOWN")
+                logging.info("invalidating since current price is above EMA50.. not buying BTCDOWN")
                 break
 
             elif current_price < ema_50 and rsi_10 < 30:
+                if atr_50 / current_price < 0.005:
+                    print("invalidating since the price volatility is below 0.5%.. not buying BTCDOWN")
+                    logging.info("invalidating since the price volatility is below 0.5%.. not buying BTCDOWN")
+                    break
                 print("buying BTCDOWN")
                 logging.info("buying BTCDOWN")
                 available_usdt_balances = next((x for x in spot_client.coin_info() if x["coin"] == "USDT"))['free']
